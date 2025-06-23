@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alquimia do Século XXI - Reações Químicas em Ação</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#5D5CDE',
+                        secondary: '#FF6B6B',
+                        accent: '#4ECDC4',
+                        dark: '#181818'
+                    },
+                    animation: {
+                        'bubble': 'bubble 2s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 3s ease-in-out infinite',
+                        'reaction': 'reaction 1s ease-in-out',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes bubble {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-10px) scale(1.1); opacity: 1; }
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 5px #5D5CDE; }
+            to { box-shadow: 0 0 20px #5D5CDE, 0 0 30px #5D5CDE; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes reaction {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .beaker {
+            background: linear-gradient(180deg, transparent 20%, #3B82F6 20%, #1E40AF  80%, #1E3A8A 100%);
+            border-radius: 20px 20px 40px 40px;
+        }
+        .reagent {
+            cursor: grab;
+            transition: all 0.3s ease;
+        }
+        .reagent:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .reagent.dragging {
+            cursor: grabbing;
+            transform: rotate(5deg) scale(1.1);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="font-inter bg-white dark:bg-dark text-gray-900 dark:text-white transition-colors duration-300">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-primary to-purple-600 text-white py-6 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <h1 class="text-2xl md:text-3xl font-bold mb-4 md:mb-0 text-center md:text-left">
+                    🧪 Alquimia do Século XXI
+                    <span class="block text-sm md:text-base font-normal mt-1">Reações Químicas em Ação</span>
+                </h1>
+                <nav class="flex flex-wrap justify-center gap-2 md:gap-4">
+                    <a href="#intro" class="px-3 py-2 rounded-lg hover:bg-white/20 transition text-sm md:text-base">Introdução</a>
+                    <a href="#tipos" class="px-3 py-2 rounded-lg hover:bg-white/20 transition text-sm md:text-base">Tipos</a>
+                    <a href="#jogo" class="px-3 py-2 rounded-lg hover:bg-white/20 transition text-sm md:text-base">Jogo</a>
+                    <a href="#exercicios" class="px-3 py-2 rounded-lg hover:bg-white/20 transition text-sm md:text-base">Exercícios</a>
+                    <a href="#curiosidades" class="px-3 py-2 rounded-lg hover:bg-white/20 transition text-sm md:text-base">Curiosidades</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Introdução -->
+    <section id="intro" class="py-16 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-primary">O que são Reações Químicas?</h2>
+                <p class="text-lg md:text-xl mb-8 text-gray-700 dark:text-gray-300 leading-relaxed">
+                    As reações químicas são processos fascinantes onde substâncias se transformam em outras completamente diferentes! 
+                    Elas acontecem o tempo todo ao nosso redor - quando respiramos, cozinhamos, ou até mesmo quando misturamos vinagre com bicarbonato.
+                </p>
+                <div class="grid md:grid-cols-3 gap-8 mt-12">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-float">
+                        <div class="text-4xl mb-4">🫧</div>
+                        <h3 class="text-xl font-semibold mb-2">No Cotidiano</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Digestão, respiração, cozimento dos alimentos</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-float" style="animation-delay: 0.2s">
+                        <div class="text-4xl mb-4">🔬</div>
+                        <h3 class="text-xl font-semibold mb-2">Na Ciência</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Medicina, materiais, energia limpa</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-float" style="animation-delay: 0.4s">
+                        <div class="text-4xl mb-4">🌱</div>
+                        <h3 class="text-xl font-semibold mb-2">Na Natureza</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Fotossíntese, decomposição, ciclos naturais</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tipos de Reações -->
+    <section id="tipos" class="py-16 bg-white dark:bg-dark">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 text-primary">Tipos de Reações Químicas</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="reaction-card bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900 dark:to-red-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition cursor-pointer" onclick="showReactionDetails('sintese')">
+                    <h3 class="text-xl font-bold mb-4 text-red-800 dark:text-red-200">⚡ Síntese</h3>
+                    <p class="text-red-700 dark:text-red-300 mb-4">A + B → AB</p>
+                    <p class="text-sm text-red-600 dark:text-red-400">Duas ou mais substâncias se combinam para formar uma nova</p>
+                    <div class="mt-4 text-xs text-red-500 dark:text-red-400">Exemplo: 2H₂ + O₂ → 2H₂O</div>
+                </div>
+
+                <div class="reaction-card bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition cursor-pointer" onclick="showReactionDetails('decomposicao')">
+                    <h3 class="text-xl font-bold mb-4 text-blue-800 dark:text-blue-200">💥 Decomposição</h3>
+                    <p class="text-blue-700 dark:text-blue-300 mb-4">AB → A + B</p>
+                    <p class="text-sm text-blue-600 dark:text-blue-400">Uma substância se divide em duas ou mais</p>
+                    <div class="mt-4 text-xs text-blue-500 dark:text-blue-400">Exemplo: 2H₂O → 2H₂ + O₂</div>
+                </div>
+
+                <div class="reaction-card bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900 dark:to-green-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition cursor-pointer" onclick="showReactionDetails('simplestroca')">
+                    <h3 class="text-xl font-bold mb-4 text-green-800 dark:text-green-200">🔄 Simples Troca</h3>
+                    <p class="text-green-700 dark:text-green-300 mb-4">A + BC → AC + B</p>
+                    <p class="text-sm text-green-600 dark:text-green-400">Um elemento substitui outro em um composto</p>
+                    <div class="mt-4 text-xs text-green-500 dark:text-green-400">Exemplo: Zn + CuSO₄ → ZnSO₄ + Cu</div>
+                </div>
+
+                <div class="reaction-card bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900 dark:to-purple-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition cursor-pointer" onclick="showReactionDetails('duplatroca')">
+                    <h3 class="text-xl font-bold mb-4 text-purple-800 dark:text-purple-200">🔁 Dupla Troca</h3>
+                    <p class="text-purple-700 dark:text-purple-300 mb-4">AB + CD → AD + CB</p>
+                    <p class="text-sm text-purple-600 dark:text-purple-400">Dois compostos trocam elementos entre si</p>
+                    <div class="mt-4 text-xs text-purple-500 dark:text-purple-400">Exemplo: AgNO₃ + NaCl → AgCl + NaNO₃</div>
+                </div>
+
+                <div class="reaction-card bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900 dark:to-orange-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition cursor-pointer" onclick="showReactionDetails('combustao')">
+                    <h3 class="text-xl font-bold mb-4 text-orange-800 dark:text-orange-200">🔥 Combustão</h3>
+                    <p class="text-orange-700 dark:text-orange-300 mb-4">Combustível + O₂ → Produtos</p>
+                    <p class="text-sm text-orange-600 dark:text-orange-400">Substância reage com oxigênio liberando energia</p>
+                    <div class="mt-4 text-xs text-orange-500 dark:text-orange-400">Exemplo: CH₄ + 2O₂ → CO₂ + 2H₂O</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jogo Interativo -->
+    <section id="jogo" class="py-16 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-indigo-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 text-primary">🎮 Laboratório Virtual</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300">Misture reagentes, preveja produtos e balance equações!</p>
+            </div>
+
+            <!-- Game Interface -->
+            <div class="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 md:p-8">
+                <!-- Score and Level -->
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <div class="flex items-center gap-6">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary" id="score">0</div>
+                            <div class="text-sm text-gray-500">Pontos</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-secondary" id="level">1</div>
+                            <div class="text-sm text-gray-500">Nível</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-accent" id="combo">0</div>
+                            <div class="text-sm text-gray-500">Combo</div>
+                        </div>
+                    </div>
+                    <button onclick="startNewChallenge()" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition font-semibold">
+                        Novo Desafio
+                    </button>
+                </div>
+
+                <!-- Challenge Description -->
+                <div id="challenge-desc" class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mb-6 text-center">
+                    <p class="text-lg font-semibold text-blue-800 dark:text-blue-200">Clique em "Novo Desafio" para começar!</p>
+                </div>
+
+                <!-- Game Area -->
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Reagents Shelf -->
+                    <div class="lg:col-span-1">
+                        <h3 class="text-xl font-semibold mb-4 text-center">🧪 Prateleira de Reagentes</h3>
+                        <div id="reagents-shelf" class="grid grid-cols-2 gap-4 mb-6">
+                            <!-- Reagents will be populated by JavaScript -->
+                        </div>
+                        
+                        <!-- Hints -->
+                        <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                            <h4 class="font-semibold text-yellow-800 dark:text-yellow-200 mb-2">💡 Dica</h4>
+                            <p id="hint-text" class="text-sm text-yellow-700 dark:text-yellow-300">Arraste os reagentes para o béquer!</p>
+                        </div>
+                    </div>
+
+                    <!-- Laboratory -->
+                    <div class="lg:col-span-1">
+                        <h3 class="text-xl font-semibold mb-4 text-center">⚗️ Laboratório</h3>
+                        <div class="relative mx-auto w-48 h-64 bg-gray-100 dark:bg-gray-700 rounded-lg mb-6">
+                            <div id="beaker" class="beaker w-32 h-40 mx-auto mt-12 relative overflow-hidden" ondrop="dropReagent(event)" ondragover="allowDrop(event)">
+                                <div id="reaction-area" class="w-full h-full flex items-center justify-center">
+                                    <span class="text-white/70 text-sm">Solte os reagentes aqui</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mixed Reagents Display -->
+                        <div id="mixed-reagents" class="text-center mb-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Reagentes no béquer: <span id="reagent-list">Nenhum</span></p>
+                        </div>
+
+                        <!-- Predict Product -->
+                        <div id="prediction-section" class="hidden">
+                            <label class="block text-sm font-semibold mb-2">Qual será o produto principal?</label>
+                            <select id="product-prediction" class="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600 text-base">
+                                <option value="">Selecione o produto...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Equation Balancing -->
+                    <div class="lg:col-span-1">
+                        <h3 class="text-xl font-semibold mb-4 text-center">⚖️ Balanceamento</h3>
+                        <div id="equation-section" class="hidden">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Balance a equação química:</p>
+                            <div id="equation-display" class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4 font-mono text-lg text-center">
+                                <!-- Equation will be displayed here -->
+                            </div>
+                            <div id="coefficient-inputs" class="grid grid-cols-2 gap-2 mb-4">
+                                <!-- Coefficient inputs will be generated -->
+                            </div>
+                            <button onclick="checkAnswer()" class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition font-semibold">
+                                Verificar Resposta
+                            </button>
+                        </div>
+
+                        <!-- Results -->
+                        <div id="result-section" class="hidden mt-4">
+                            <div id="result-message" class="p-4 rounded-lg text-center font-semibold">
+                                <!-- Result message will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exercícios -->
+    <section id="exercicios" class="py-16 bg-white dark:bg-dark">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 text-primary">📝 Exercícios e Fixação</h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">Identificação de Tipos</h3>
+                        <p class="mb-4 text-blue-700 dark:text-blue-300">Qual tipo de reação representa: 2Na + Cl₂ → 2NaCl?</p>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="q1" value="sintese" class="mr-2">
+                                <span>Síntese</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="q1" value="decomposicao" class="mr-2">
+                                <span>Decomposição</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="q1" value="simples" class="mr-2">
+                                <span>Simples Troca</span>
+                            </label>
+                        </div>
+                        <button onclick="checkQuiz('q1', 'sintese')" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                            Verificar
+                        </button>
+                    </div>
+
+                    <div class="bg-green-50 dark:bg-green-900/20 p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold mb-4 text-green-800 dark:text-green-200">Balanceamento</h3>
+                        <p class="mb-4 text-green-700 dark:text-green-300">Balance: __C + __O₂ → __CO₂</p>
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <input type="number" id="c1" placeholder="C" class="p-2 border rounded text-center dark:bg-gray-700 dark:border-gray-600" min="1" max="10">
+                            <input type="number" id="o1" placeholder="O₂" class="p-2 border rounded text-center dark:bg-gray-700 dark:border-gray-600" min="1" max="10">
+                            <input type="number" id="co1" placeholder="CO₂" class="p-2 border rounded text-center dark:bg-gray-700 dark:border-gray-600" min="1" max="10">
+                        </div>
+                        <button onclick="checkBalance()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                            Verificar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curiosidades -->
+    <section id="curiosidades" class="py-16 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900 dark:to-orange-900">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 text-primary">🔬 Alquimia na Vida Real</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-4">⚡</div>
+                    <h3 class="text-xl font-semibold mb-4">Reação Mais Rápida</h3>
+                    <p class="text-gray-600 dark:text-gray-400">A neutralização ácido-base pode ocorrer em femtossegundos (10⁻¹⁵ segundos)!</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-4">🍳</div>
+                    <h3 class="text-xl font-semibold mb-4">Na Cozinha</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Quando você faz um ovo frito, as proteínas passam por desnaturação - uma reação química!</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-4">💚</div>
+                    <h3 class="text-xl font-semibold mb-4">Fotossíntese</h3>
+                    <p class="text-gray-600 dark:text-gray-400">As plantas convertem 6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂ usando energia solar!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Alquimia do Século XXI</h3>
+                    <p class="text-gray-400">Educação química interativa e gamificada para estudantes do ensino médio e superior.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Recursos Úteis</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="https://www.khanacademy.org" class="hover:text-white transition">Khan Academy</a></li>
+                        <li><a href="https://www.scielo.br" class="hover:text-white transition">SciELO</a></li>
+                        <li><a href="https://phet.colorado.edu" class="hover:text-white transition">PhET Simulações</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Contato</h3>
+                    <p class="text-gray-400">Sugestões e melhorias são sempre bem-vindas!</p>
+                    <div class="mt-4">
+                        <input type="email" placeholder="Seu email" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600">
+                        <button class="w-full mt-2 bg-primary text-white p-2 rounded hover:bg-purple-600 transition">Enviar Sugestão</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Alquimia do Século XXI. Desenvolvido para fins educacionais.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Game State
+        let gameState = {
+            score: 0,
+            level: 1,
+            combo: 0,
+            currentChallenge: null,
+            mixedReagents: [],
+            equations: []
+        };
+
+        // Reaction Database
+        const reactions = {
+            1: [
+                {
+                    type: 'sintese',
+                    reagents: ['H2', 'O2'],
+                    products: ['H2O'],
+                    equation: '2H₂ + O₂ → 2H₂O',
+                    coefficients: [2, 1, 2],
+                    description: 'Realize uma reação de síntese para formar água'
+                },
+                {
+                    type: 'sintese',
+                    reagents: ['Na', 'Cl2'],
+                    products: ['NaCl'],
+                    equation: '2Na + Cl₂ → 2NaCl',
+                    coefficients: [2, 1, 2],
+                    description: 'Combine sódio e cloro para formar sal de cozinha'
+                }
+            ],
+            2: [
+                {
+                    type: 'decomposicao',
+                    reagents: ['H2O2'],
+                    products: ['H2O', 'O2'],
+                    equation: '2H₂O₂ → 2H₂O + O₂',
+                    coefficients: [2, 2, 1],
+                    description: 'Decomponha o peróxido de hidrogênio'
+                },
+                {
+                    type: 'simplestroca',
+                    reagents: ['Zn', 'CuSO4'],
+                    products: ['ZnSO4', 'Cu'],
+                    equation: 'Zn + CuSO₄ → ZnSO₄ + Cu',
+                    coefficients: [1, 1, 1, 1],
+                    description: 'Substitua o cobre pelo zinco'
+                }
+            ]
+        };
+
+        const reagentColors = {
+            'H2': '#E3F2FD',
+            'O2': '#FFF3E0',
+            'Na': '#F3E5F5',
+            'Cl2': '#E8F5E8',
+            'H2O2': '#FFF8E1',
+            'Zn': '#E0E0E0',
+            'CuSO4': '#E1F5FE'
+        };
+
+        function startNewChallenge() {
+            const levelReactions = reactions[gameState.level] || reactions[1];
+            gameState.currentChallenge = levelReactions[Math.floor(Math.random() * levelReactions.length)];
+            gameState.mixedReagents = [];
+            
+            updateChallengeDisplay();
+            populateReagentsShelf();
+            resetGameInterface();
+        }
+
+        function updateChallengeDisplay() {
+            const challenge = gameState.currentChallenge;
+            document.getElementById('challenge-desc').innerHTML = `
+                <p class="text-lg font-semibold text-blue-800 dark:text-blue-200">${challenge.description}</p>
+                <p class="text-sm text-blue-600 dark:text-blue-400 mt-2">Tipo: ${challenge.type.charAt(0).toUpperCase() + challenge.type.slice(1)}</p>
+            `;
+        }
+
+        function populateReagentsShelf() {
+            const shelf = document.getElementById('reagents-shelf');
+            const challenge = gameState.currentChallenge;
+            
+            // Add some extra reagents to make it challenging
+            const allReagents = [...challenge.reagents, 'H2SO4', 'NaOH', 'HCl', 'Ca'];
+            const shuffledReagents = allReagents.sort(() => Math.random() - 0.5);
+            
+            shelf.innerHTML = shuffledReagents.map(reagent => `
+                <div class="reagent bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 p-4 rounded-lg text-center shadow-lg" 
+                     draggable="true" 
+                     ondragstart="dragStart(event)" 
+                     data-reagent="${reagent}"
+                     style="background: ${reagentColors[reagent] || '#F5F5F5'};">
+                    <div class="text-2xl mb-2">🧪</div>
+                    <div class="font-semibold text-sm">${reagent}</div>
+                </div>
+            `).join('');
+        }
+
+        function resetGameInterface() {
+            document.getElementById('mixed-reagents').innerHTML = '<p class="text-sm text-gray-600 dark:text-gray-400">Reagentes no béquer: <span id="reagent-list">Nenhum</span></p>';
+            document.getElementById('prediction-section').classList.add('hidden');
+            document.getElementById('equation-section').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('reaction-area').innerHTML = '<span class="text-white/70 text-sm">Solte os reagentes aqui</span>';
+        }
+
+        function dragStart(event) {
+            event.dataTransfer.setData('text/plain', event.target.dataset.reagent);
+            event.target.classList.add('dragging');
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function dropReagent(event) {
+            event.preventDefault();
+            const reagent = event.dataTransfer.getData('text/plain');
+            
+            if (!gameState.mixedReagents.includes(reagent)) {
+                gameState.mixedReagents.push(reagent);
+                updateBeakerDisplay();
+                updateReagentList();
+                
+                // Check if we have the right reagents
+                const challenge = gameState.currentChallenge;
+                if (gameState.mixedReagents.length >= 2) {
+                    showPredictionSection();
+                }
+            }
+            
+            // Remove dragging class from all reagents
+            document.querySelectorAll('.reagent').forEach(r => r.classList.remove('dragging'));
+        }
+
+        function updateBeakerDisplay() {
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.getElementById('reaction-area').innerHTML = `
+                <div class="w-full h-full animate-bubble" style="background: linear-gradient(180deg, transparent 0%, ${randomColor}50 50%, ${randomColor} 100%); border-radius: 0 0 20px 20px;"></div>
+            `;
+        }
+
+        function updateReagentList() {
+            document.getElementById('reagent-list').textContent = gameState.mixedReagents.join(', ') || 'Nenhum';
+        }
+
+        function showPredictionSection() {
+            const challenge = gameState.currentChallenge;
+            const select = document.getElementById('product-prediction');
+            
+            // Populate product options
+            const allProducts = ['H2O', 'NaCl', 'CO2', 'H2SO4', 'Ca(OH)2', 'ZnSO4', 'Cu', 'O2'];
+            select.innerHTML = '<option value="">Selecione o produto...</option>' + 
+                allProducts.map(product => `<option value="${product}">${product}</option>`).join('');
+            
+            document.getElementById('prediction-section').classList.remove('hidden');
+            
+            // Auto-advance when product is selected
+            select.addEventListener('change', function() {
+                if (this.value) {
+                    setTimeout(() => showEquationSection(), 1000);
+                }
+            });
+        }
+
+        function showEquationSection() {
+            const challenge = gameState.currentChallenge;
+            document.getElementById('equation-section').classList.remove('hidden');
+            
+            // Display equation template
+            const equation = challenge.equation.replace(/\d+/g, '__');
+            document.getElementById('equation-display').textContent = equation;
+            
+            // Create coefficient inputs
+            const coeffInputs = document.getElementById('coefficient-inputs');
+            coeffInputs.innerHTML = challenge.coefficients.map((_, i) => `
+                <input type="number" id="coeff${i}" placeholder="?" min="1" max="10" 
+                       class="p-2 border rounded text-center dark:bg-gray-700 dark:border-gray-600 text-base">
+            `).join('');
+        }
+
+        function checkAnswer() {
+            const challenge = gameState.currentChallenge;
+            const prediction = document.getElementById('product-prediction').value;
+            const userCoeffs = challenge.coefficients.map((_, i) => 
+                parseInt(document.getElementById(`coeff${i}`).value) || 0
+            );
+            
+            let score = 0;
+            let feedback = [];
+            
+            // Check if correct reagents were mixed
+            const hasCorrectReagents = challenge.reagents.every(r => gameState.mixedReagents.includes(r));
+            if (hasCorrectReagents) {
+                score += 20;
+                feedback.push("✅ Reagentes corretos!");
+            } else {
+                feedback.push("❌ Reagentes incorretos.");
+            }
+            
+            // Check product prediction
+            if (challenge.products.includes(prediction)) {
+                score += 30;
+                feedback.push("✅ Produto correto!");
+            } else {
+                feedback.push("❌ Produto incorreto.");
+            }
+            
+            // Check coefficients
+            const coeffsCorrect = userCoeffs.every((coeff, i) => coeff === challenge.coefficients[i]);
+            if (coeffsCorrect) {
+                score += 50;
+                feedback.push("✅ Balanceamento perfeito!");
+                gameState.combo++;
+            } else {
+                feedback.push("❌ Balanceamento incorreto.");
+                gameState.combo = 0;
+            }
+            
+            // Apply combo bonus
+            if (gameState.combo > 0) {
+                score *= (1 + gameState.combo * 0.1);
+                feedback.push(`🔥 Combo x${gameState.combo}!`);
+            }
+            
+            gameState.score += Math.round(score);
+            updateScoreDisplay();
+            showResult(feedback, score > 70);
+            
+            // Level up
+            if (gameState.score >= gameState.level * 200) {
+                gameState.level++;
+                feedback.push(`🎉 Nível ${gameState.level} desbloqueado!`);
+            }
+        }
+
+        function showResult(feedback, success) {
+            const resultDiv = document.getElementById('result-message');
+            const bgColor = success ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 
+                                    'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200';
+            
+            resultDiv.className = `p-4 rounded-lg text-center font-semibold ${bgColor}`;
+            resultDiv.innerHTML = feedback.join('<br>');
+            
+            document.getElementById('result-section').classList.remove('hidden');
+            
+            if (success) {
+                resultDiv.classList.add('animate-reaction');
+            }
+        }
+
+        function updateScoreDisplay() {
+            document.getElementById('score').textContent = gameState.score;
+            document.getElementById('level').textContent = gameState.level;
+            document.getElementById('combo').textContent = gameState.combo;
+        }
+
+        function checkQuiz(questionName, correctAnswer) {
+            const selected = document.querySelector(`input[name="${questionName}"]:checked`);
+            if (selected && selected.value === correctAnswer) {
+                alert('✅ Correto! Parabéns!');
+            } else {
+                alert('❌ Incorreto. Tente novamente!');
+            }
+        }
+
+        function checkBalance() {
+            const c = parseInt(document.getElementById('c1').value) || 0;
+            const o = parseInt(document.getElementById('o1').value) || 0;
+            const co = parseInt(document.getElementById('co1').value) || 0;
+            
+            if (c === 1 && o === 1 && co === 1) {
+                alert('✅ Correto! C + O₂ → CO₂ (já está balanceada)');
+            } else {
+                alert('❌ Incorreto. A equação já está balanceada: 1C + 1O₂ → 1CO₂');
+            }
+        }
+
+        function showReactionDetails(type) {
+            const details = {
+                'sintese': 'Reação de Síntese: Duas ou mais substâncias simples se combinam para formar uma substância composta. É como montar um quebra-cabeças!',
+                'decomposicao': 'Reação de Decomposição: Uma substância composta se divide em duas ou mais substâncias simples. É o contrário da síntese!',
+                'simplestroca': 'Reação de Simples Troca: Um elemento mais reativo substitui outro menos reativo em um composto. Como uma troca de jogadores no futebol!',
+                'duplatroca': 'Reação de Dupla Troca: Dois compostos trocam elementos entre si, formando dois novos compostos. É uma troca dupla!',
+                'combustao': 'Reação de Combustão: Uma substância reage com oxigênio, liberando energia na forma de calor e luz. Como quando acendemos uma vela!'
+            };
+            
+            alert(details[type]);
+        }
+
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            updateScoreDisplay();
+            
+            // Add smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
